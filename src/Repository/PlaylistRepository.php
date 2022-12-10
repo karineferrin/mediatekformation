@@ -15,7 +15,13 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Playlist[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlaylistRepository extends ServiceEntityRepository
-{
+{   private $idPlaylist = 'p.id id';
+    private $namePlaylist = 'p.name name';
+    private $formations = 'p.formations';
+    private $categories = 'f.categories';
+    private $nameCategories = 'c.name';
+    private $categorieName = 'c.name categoriename';
+    
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Playlist::class);
@@ -47,15 +53,15 @@ class PlaylistRepository extends ServiceEntityRepository
      */
     public function findAllOrderBy($champ, $ordre): array{
         return $this->createQueryBuilder('p')
-                ->select('p.id id')
-                ->addSelect('p.name name')
-                ->addSelect('c.name categoriename')
-                ->leftjoin('p.formations', 'f')
-                ->leftjoin('f.categories', 'c')
+                ->select($this->idPlaylist)
+                ->addSelect($this->namePlaylist)
+                ->addSelect($this->categorieName)
+                ->leftjoin($this->formations, 'f')
+                ->leftjoin($this->categories, 'c')
                 ->groupBy('p.id')
-                ->addGroupBy('c.name')
+                ->addGroupBy($this->nameCategories)
                 ->orderBy('p.'.$champ, $ordre)
-                ->addOrderBy('c.name')
+                ->addOrderBy($this->nameCategories)
                 ->getQuery()
                 ->getResult();       
     }
@@ -74,32 +80,32 @@ class PlaylistRepository extends ServiceEntityRepository
         }    
         if($table==""){      
             return $this->createQueryBuilder('p')
-                    ->select('p.id id')
-                    ->addSelect('p.name name')
-                    ->addSelect('c.name categoriename')
-                    ->leftjoin('p.formations', 'f')
-                    ->leftjoin('f.categories', 'c')
+                    ->select($this->idPlaylist)
+                    ->addSelect($this->namePlaylist)
+                    ->addSelect($this->categorieName)
+                    ->leftjoin($this->formations, 'f')
+                    ->leftjoin($this->categories, 'c')
                     ->where('p.'.$champ.' LIKE :valeur')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->groupBy('p.id')
-                    ->addGroupBy('c.name')
+                    ->addGroupBy($this->nameCategories)
                     ->orderBy('p.name', 'ASC')
-                    ->addOrderBy('c.name')
+                    ->addOrderBy($this->nameCategories)
                     ->getQuery()
                     ->getResult();              
         }else{   
             return $this->createQueryBuilder('p')
-                    ->select('p.id id')
-                    ->addSelect('p.name name')
-                    ->addSelect('c.name categoriename')
-                    ->leftjoin('p.formations', 'f')
-                    ->leftjoin('f.categories', 'c')
+                    ->select($this->idPlaylist)
+                    ->addSelect($this->namePlaylist)
+                    ->addSelect($this->categorieName)
+                    ->leftjoin($this->formations, 'f')
+                    ->leftjoin($this->categories, 'c')
                     ->where('c.'.$champ.' LIKE :valeur')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->groupBy('p.id')
-                    ->addGroupBy('c.name')
+                    ->addGroupBy($this->nameCategories)
                     ->orderBy('p.name', 'ASC')
-                    ->addOrderBy('c.name')
+                    ->addOrderBy($this->nameCategories)
                     ->getQuery()
                     ->getResult();              
             
