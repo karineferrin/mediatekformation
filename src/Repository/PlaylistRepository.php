@@ -46,39 +46,44 @@ class PlaylistRepository extends ServiceEntityRepository
     }
     
     /**
-     * Retourne toutes les playlists triées sur un champ
-     * @param type $champ
-     * @param type $ordre
-     * @return Playlist[]
-     */
-    public function findAllOrderBy($champ, $ordre): array{
+    * Retourne toutes les playlists triées sur le nom de la playlist
+    * @param type $champ
+    * @param type $ordre
+    * @return Playlist[]
+    */
+    public function findAllOrderByName($ordre): array{
         return $this->createQueryBuilder('p')
-                ->select($this->idPlaylist)
-                ->addSelect($this->namePlaylist)
-                ->addSelect($this->categorieName)
-                ->leftjoin($this->formations, 'f')
-                ->leftjoin($this->categories, 'c')
-                ->groupBy('p.id')
-                ->addGroupBy($this->nameCategories)
-                ->orderBy('p.'.$champ, $ordre)
-                ->addOrderBy($this->nameCategories)
-                ->getQuery()
-                ->getResult();       
+                    ->leftjoin('p.formations', 'f')
+                    ->groupBy('p.id')
+                    ->orderBy('p.name', $ordre)
+                    ->getQuery()
+                    ->getResult();
+    }
+    /**
+    * Retourne toutes les playlists triées sur le nombre de formations
+    * @param type $ordre
+    * @return Playlist[]
+    */
+    public function findAllOrderByNbFormations($ordre): array{
+        return $this->createQueryBuilder('p')
+                    ->leftjoin('p.formations', 'f')
+                    ->groupBy('p.id')
+                    ->orderBy('count(f.title)', $ordre)
+                    ->getQuery()
+                    ->getResult();
     }
 
     /**
-     * Enregistrements dont un champ contient une valeur
-     * ou tous les enregistrements si la valeur est vide
+     * Tous les enregistrements si la valeur est vide
      * @param type $champ
      * @param type $valeur
      * @param type $table si $champ dans une autre table
      * @return Playlist[]
      */
-    public function findByContainValue($champ, $valeur, $table=""): array{
+    public function findByContainValue($champ, $valeur): array{
         if($valeur==""){
-            return $this->findAllOrderBy('name', 'ASC');
-        }    
-        if($table==""){      
+            return $this->findAllOrderByName('name', 'ASC');
+        } else {      
             return $this->createQueryBuilder('p')
                     ->select($this->idPlaylist)
                     ->addSelect($this->namePlaylist)
@@ -92,9 +97,22 @@ class PlaylistRepository extends ServiceEntityRepository
                     ->orderBy('p.name', 'ASC')
                     ->addOrderBy($this->nameCategories)
                     ->getQuery()
-                    ->getResult();              
-        }else{   
-            return $this->createQueryBuilder('p')
+                    ->getResult();
+    }
+    }
+    
+    /**
+     * Enregistrements dont un champ contient une valeur
+     * @param type $champ
+     * @param type $valeur
+     * @param type $table si $champ dans une autre table
+     * @return Playlist[]
+     */    
+    public function findByContainValueTable($champ, $valeur, $table): array{
+        if($valeur==""){
+            return $this->findAllOrderByName('name', 'ASC');
+        } else {  
+        return $this->createQueryBuilder('p')
                     ->select($this->idPlaylist)
                     ->addSelect($this->namePlaylist)
                     ->addSelect($this->categorieName)
@@ -111,7 +129,6 @@ class PlaylistRepository extends ServiceEntityRepository
             
         }           
     }    
-
-
     
+
 }
