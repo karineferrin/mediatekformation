@@ -89,7 +89,7 @@ class PlaylistsController extends AbstractController {
     public function findAllContain($champ, Request $request, $table): Response{
         $valeur = $request->get("recherche");
         if ($table != ""){
-            $playlists = $this->playlistRepository->findByContainValueTable($champ,$valeur, $table);
+            $playlists = $this->playlistRepository->findByContainValueTable($champ,$valeur,$table);
         }else{
             $playlists = $this->playlistRepository->findByContainValue($champ,$valeur);
         }
