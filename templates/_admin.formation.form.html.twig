@@ -1,0 +1,36 @@
+{{ form_start(formformation) }}
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-auto">
+                        {{ form_row(formformation.publishedAt) }}
+                    </div>
+                    
+                </div>
+                {{ form_row(formformation.title) }}
+                {{ form_row(formformation.playlist) }}
+                {{ form_row(formformation.categories) }}
+            </div>
+            <div class="col">
+                <!-- emplacement image -->
+                <div>
+                    {{ form_row(formformation.videoId) }}
+                </div>
+                < div >
+                    Image actuelle
+                    {% if  formation.videoId %}
+                        <img src="{{ app.request.getBasePath() ~vich_uploader_asset(formation, 'videoId') }}"
+                             class ="card-img-top" style="width:100%;height:auto;">
+                    {% else %}
+                        <p>(aucune image)</p>
+                    {% endif %}            
+                </ div >
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+            {{ form_row(formformation.description) }}
+            </div>
+        </div>
+    
+    {{ form_end(formformation) }}
