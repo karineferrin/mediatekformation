@@ -2,9 +2,11 @@
 
 namespace App\Controller\admin;
 
+use App\Controller\Form\FormationType;
 use App\Entity\Formation;
-use App\Form\FormationType;
+use App\Repository\CategorieRepository;
 use App\Repository\FormationRepository;
+use App\Repository\PlaylistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,17 +18,32 @@ use Symfony\Component\Routing\Annotation\Route;
  * 
  */
 class AdminFormationsController extends AbstractController {
+    const PAGES_FORMATIONS = "admin/admin.formations.html.twig";
     /**
      * $var FormationRepository
      */
-    private $repository;
+    private $formationRepository;
+    /**
+     * 
+     * @var CategorieRepository
+     */
+    private $categorieRepository;
     
     /**
      * 
-     * @param FormationRepository $repository
+     * @var PlaylistRepository
      */
-    public function __construct(FormationRepository $repository){
-        $this -> repository = $repository;
+    private $playlistRepository;
+    /**
+     * 
+     * @param FormationRepository $formationRepository
+     */
+    function __construct(PlaylistRepository $playlistRepository, 
+            CategorieRepository $categorieRepository,
+            FormationRepository $formationRespository) {
+        $this->playlistRepository = $playlistRepository;
+        $this->categorieRepository = $categorieRepository;
+        $this->formationRepository = $formationRespository;
     }
     
     /**
@@ -34,9 +51,13 @@ class AdminFormationsController extends AbstractController {
      * @return Response
      */
     public function index(): Response{
-        $formations = $this -> repository -> findAllOrderBy('publishedAt','DESC');
-        return $this->render("admin/admin.formations.html.twig", [
-            'formations' => $formations
+        $formations = $this->formationRepository->findAll();
+        $playlists = $this->playlistRepository->findAll();
+        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::PAGES_FORMATIONS, [
+            'formations' => $formations,
+            'playlists' => $playlists,
+            'categories' => $categories
         ]);
     }
     
@@ -46,7 +67,7 @@ class AdminFormationsController extends AbstractController {
      * @return Response
      */
     public function  suppr(Formation  $formation): Response{
-        $this -> repository -> remove($formation , true);
+        $this -> formationRepository -> remove($formation , true);
         return  $this -> redirectToRoute('admin.formations');
     }
     /**
@@ -59,12 +80,12 @@ class AdminFormationsController extends AbstractController {
         $formFormation = $this->createForm(FormationType::class, $formation);
         $formFormation->handleRequest($request);
         if($formFormation->isSubmitted() && $formFormation->isValid()){
-            $this->repository->add($formation, true);
+            $this->formationRepository->add($formation, true);
             return $this->redirectToRoute('admin.formations');
         }
         return $this -> render("admin/admin.formation.edit.html.twig", [
             'formation' => $formation,
-            'formFormation' => $formFormation->createView()
+            'formformation' => $formFormation->createView()
         ]);
     }
     /**
@@ -77,12 +98,12 @@ class AdminFormationsController extends AbstractController {
         $formFormation = $this->createForm(FormationType::class, $formation);
         $formFormation->handleRequest($request);
         if($formFormation->isSubmitted() && $formFormation->isValid()){
-            $this->repository->add($formation, true);
+            $this->formationRepository->add($formation, true);
             return $this->redirectToRoute('admin.formations');
         }
         return $this -> render("admin/admin.formation.ajout.html.twig", [
-            'visite' => $formation,
-            'formFormation' => $formFormation->createView()
+            'formation' => $formation,
+            'formformation' => $formFormation->createView()
         ]);
     }
     

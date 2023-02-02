@@ -15,12 +15,17 @@
                 <!-- emplacement image -->
                 <div>
                     {{ form_row(formformation.videoId) }}
-                </div>
-                < div >
+                
+               
                     Image actuelle
-                    {% if  formation.videoId %}
-                        <img src="{{ app.request.getBasePath() ~vich_uploader_asset(formation, 'videoId') }}"
-                             class ="card-img-top" style="width:100%;height:auto;">
+                    {% if formation.miniature %}
+                            <a href="{{ path('formations.showone', {id:'formation.id'}) }}">
+                                {% if 'formation.id' != "" %}
+                                    <img src="{{ formation.miniature }}" alt="ecran de formation">
+                                {% else %}
+                                    <p>(aucune image)</p>
+                                {% endif %}
+                            </a>
                     {% else %}
                         <p>(aucune image)</p>
                     {% endif %}            

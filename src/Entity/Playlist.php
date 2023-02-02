@@ -108,7 +108,7 @@ class Playlist
                     $categories[] = $categorieFormation->getName();
                 }
             }
-        return $categories;
         }
+        return $categories;
     }
 }

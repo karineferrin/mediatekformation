@@ -165,4 +165,16 @@ class Formation
 
         return $this;
     }
+     public function getUpdatedAt(): ? \DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(? \DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+    
 }

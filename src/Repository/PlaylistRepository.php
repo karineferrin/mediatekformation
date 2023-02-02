@@ -85,19 +85,13 @@ class PlaylistRepository extends ServiceEntityRepository
             return $this->findAllOrderByName('name', 'ASC');
         } else {      
             return $this->createQueryBuilder('p')
-                    ->select($this->idPlaylist)
-                    ->addSelect($this->namePlaylist)
-                    ->addSelect($this->categorieName)
-                    ->leftjoin($this->formations, 'f')
-                    ->leftjoin($this->categories, 'c')
-                    ->where('p.'.$champ.' LIKE :valeur')
-                    ->setParameter('valeur', '%'.$valeur.'%')
-                    ->groupBy('p.id')
-                    ->addGroupBy($this->nameCategories)
-                    ->orderBy('p.name', 'ASC')
-                    ->addOrderBy($this->nameCategories)
-                    ->getQuery()
-                    ->getResult();
+                        ->leftjoin('p.formations', 'f')
+                        ->where('p.'.$champ.' LIKE :valeur')
+                        ->setParameter('valeur', '%'.$valeur.'%')
+                        ->groupBy('p.id')
+                        ->orderBy('p.name', 'ASC')
+                        ->getQuery()
+                        ->getResult();
     }
     }
     
@@ -113,17 +107,12 @@ class PlaylistRepository extends ServiceEntityRepository
             return $this->findAllOrderByName('name', 'ASC');
         } else {  
         return $this->createQueryBuilder('p')
-                    ->select($this->idPlaylist)
-                    ->addSelect($this->namePlaylist)
-                    ->addSelect($this->categorieName)
-                    ->leftjoin($this->formations, 'f')
-                    ->leftjoin($this->categories, 'c')
+                    ->leftjoin('p.formations', 'f')
+                    ->leftjoin('f.categories', 'c')
                     ->where('c.'.$champ.' LIKE :valeur')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->groupBy('p.id')
-                    ->addGroupBy($this->nameCategories)
                     ->orderBy('p.name', 'ASC')
-                    ->addOrderBy($this->nameCategories)
                     ->getQuery()
                     ->getResult();              
             
