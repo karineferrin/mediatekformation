@@ -36,14 +36,16 @@ class AdminFormationsController extends AbstractController {
     private $playlistRepository;
     /**
      * 
+     * @param CategorieRepository $categorieRepository
+     * @param PlaylistRepository $playlistRepository
      * @param FormationRepository $formationRepository
      */
     function __construct(PlaylistRepository $playlistRepository, 
             CategorieRepository $categorieRepository,
-            FormationRepository $formationRespository) {
+            FormationRepository $formationRepository) {
         $this->playlistRepository = $playlistRepository;
         $this->categorieRepository = $categorieRepository;
-        $this->formationRepository = $formationRespository;
+        $this->formationRepository = $formationRepository;
     }
     
     /**
@@ -66,7 +68,7 @@ class AdminFormationsController extends AbstractController {
      * @param Formation $formation
      * @return Response
      */
-    public function  suppr(Formation  $formation): Response{
+    public function  suppr(Formation $formation): Response{
         $this -> formationRepository -> remove($formation , true);
         return  $this -> redirectToRoute('admin.formations');
     }
@@ -106,5 +108,46 @@ class AdminFormationsController extends AbstractController {
             'formformation' => $formFormation->createView()
         ]);
     }
-    
+    /**
+     * @Route("/admin/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
+     * @param type $champ
+     * @param type $ordre
+     * @param type $table
+     * @return Response
+     */
+    public function sort($champ, $ordre, $table=""): Response{
+        if ($table != ""){
+            $formations = $this->formationRepository->findAllByTable($champ, $ordre, $table);
+        }else{
+            $formations = $this->formationRepository->findAllOrderBy($champ, $ordre);
+        }
+        $categories = $this->categorieRepository->findAll();
+        return $this->render(self::PAGES_FORMATIONS, [
+            'formations' => $formations,
+            'categories' => $categories
+        ]);
+    }
+    /**
+     * @Route("/admin/recherche/{champ}/{table}", name="admin.formations.findallcontain")
+     * @param type $champ
+     * @param Request $request
+     * @param type $table
+     * @return Response
+     */
+    public function findAllContain($champ, Request $request, $table=""): Response{
+        $valeur = $request->get("recherche");
+        if ($table != ""){
+            $formations = $this->formationRepository->findByContainValueTable($champ, $valeur, $table);
+        }else{
+            $formations = $this->formationRepository->findByContainValue($champ, $valeur);
+        }
+        $categories = $this->categorieRepository->findAll();
+        
+        return $this->render(self::PAGES_FORMATIONS, [
+            'formations' => $formations,
+            'categories' => $categories,
+            'valeur' => $valeur,
+            'table' => $table
+        ]);
+    }
 }
