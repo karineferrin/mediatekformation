@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 /**
  * Description of AdminPlaylistsController
  *
@@ -76,15 +76,15 @@ class AdminPlaylistsController extends AbstractController {
      * @param Request $request
      * @return Response
      */
-    public function edit(Playlist $playlist, Request $request): Response{
-        $formPlaylist = $this->createForm(PlaylistType::class, $playlist);
+    public function edit(Playlist $id, Request $request): Response{
+        $formPlaylist = $this->createForm(PlaylistType::class, $id);
         $formPlaylist->handleRequest($request);
         if($formPlaylist->isSubmitted() && $formPlaylist->isValid()){
-            $this->playlistRepository->add($playlist, true);
+            $this->playlistRepository->add($id, true);
             return $this->redirectToRoute('admin.playlists');
         }
         return $this -> render("admin/admin.playlist.edit.html.twig", [
-            'playlist' => $playlist,
+            'playlist' => $id,
             'formplaylist' => $formPlaylist->createView()
         ]);
     }
@@ -150,5 +150,18 @@ class AdminPlaylistsController extends AbstractController {
                'valeur' => $valeur,
                'table' => $table
             ]);  
+    }
+    /**
+     * @Route("/playlist/edit/{id}", name="admin.playlists.showone")
+     * @param type $id
+     * @return Response
+     */
+    public function showOne($id): Response{
+        $playlist = $this->playlistRepository->find($id);
+        $playlistFormations = $this->formationRepository->findAllForOnePlaylist($id);
+        return $this->render("admin.playlist.edit.html.twig", [
+            'playlist' => $playlist,
+            'playlistformations' => $playlistFormations
+        ]);        
     }
 }

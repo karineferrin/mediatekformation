@@ -38,6 +38,7 @@ class FormationType extends AbstractType
                 'class' => Categorie::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'expanded' => true,
                 'required' => false
             ])
             ->add('videoId', FileType::class, [

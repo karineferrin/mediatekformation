@@ -4,6 +4,9 @@
 {% block stylesheets %}{% endblock %}
 {% block top %}
     <div class="container">
+        <div class="text-end">
+            <a href="{{ path('logout') }}">se déconnecter</a>
+        </div>
         <!-- titre -->
         <div class="text-left">
             <img src="{{ app.request.getBasePath()~'/banniere.jpg' }}" alt="bureau dans un portable" >
@@ -22,7 +25,7 @@
                         <a class="nav-link" href="{{ path('admin.playlists') }}">Playlists</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Catégories</a>
+                        <a class="nav-link" href="{{ path('admin.categories') }}">Catégories</a>
                     </li>                    
                 </ul>
             </div>
