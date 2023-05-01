@@ -14,10 +14,20 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
+/**
+ * Builder permettant de définir les champs du formulaire d'ajout ou d'édition
+ * d'une formation
+ * @author karinefer
+ */
 
 class FormationType extends AbstractType
 {
+    /**
+     * Ajout des champs pour le formulaire "formformation"
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -26,7 +36,7 @@ class FormationType extends AbstractType
                 'class' => Playlist::class,
                 'choice_label' => 'name',
                 'multiple' => false,
-                'required' => false
+                'required' => true
             ])
             ->add('publishedAt', DateType::class,[
                 'widget' => 'single_text',

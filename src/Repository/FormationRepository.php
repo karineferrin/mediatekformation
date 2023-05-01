@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FormationRepository extends ServiceEntityRepository
 {
-    private $publishedAt = 'f.publishedAt';
+    
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Formation::class);
@@ -81,7 +81,7 @@ class FormationRepository extends ServiceEntityRepository
         }else{
             return $this->createQueryBuilder('f')
                     ->where('f.'.$champ.' LIKE :valeur')
-                    ->orderBy($this->publishedAt, 'DESC')
+                    ->orderBy('f.publishedAt', 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();
@@ -102,7 +102,7 @@ class FormationRepository extends ServiceEntityRepository
          return $this->createQueryBuilder('f')
                     ->join('f.'.$table, 't')                    
                     ->where('t.'.$champ.' LIKE :valeur')
-                    ->orderBy($this->publishedAt, 'DESC')
+                    ->orderBy('f.publishedAt', 'DESC')
                     ->setParameter('valeur', '%'.$valeur.'%')
                     ->getQuery()
                     ->getResult();
@@ -115,7 +115,7 @@ class FormationRepository extends ServiceEntityRepository
      */
     public function findAllLasted($nb) : array {
         return $this->createQueryBuilder('f')
-                ->orderBy($this->publishedAt, 'DESC')
+                ->orderBy('f.publishedAt', 'DESC')
                 ->setMaxResults($nb)     
                 ->getQuery()
                 ->getResult();
@@ -131,7 +131,7 @@ class FormationRepository extends ServiceEntityRepository
                 ->join('f.playlist', 'p')
                 ->where('p.id=:id')
                 ->setParameter('id', $idPlaylist)
-                ->orderBy($this->publishedAt, 'ASC')   
+                ->orderBy('f.publishedAt', 'ASC')   
                 ->getQuery()
                 ->getResult();        
     }

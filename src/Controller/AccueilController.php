@@ -19,7 +19,7 @@ class AccueilController extends AbstractController{
     private $repository;
     
     /**
-     * 
+     * Création du constructeur
      * @param FormationRepository $repository
      */
     public function __construct(FormationRepository $repository) {
@@ -27,6 +27,7 @@ class AccueilController extends AbstractController{
     }   
     
     /**
+     * Création de la route vers la page d'accueil
      * @Route("/", name="accueil")
      * @return Response
      */
@@ -38,6 +39,7 @@ class AccueilController extends AbstractController{
     }
     
     /**
+     * Création de la route vers les conditions générales d'utilisation
      * @Route("/cgu", name="cgu")
      * @return Response
      */

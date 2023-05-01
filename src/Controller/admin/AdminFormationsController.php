@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 /**
- * Description of AdminFormationsController
+ * Gère les routes de la page d'administration des formations
  *
- * @author karin
+ * @author karinfer
  * 
  */
 class AdminFormationsController extends AbstractController {
@@ -35,7 +35,7 @@ class AdminFormationsController extends AbstractController {
      */
     private $playlistRepository;
     /**
-     * 
+     * Création du constructeur 
      * @param CategorieRepository $categorieRepository
      * @param PlaylistRepository $playlistRepository
      * @param FormationRepository $formationRepository
@@ -49,6 +49,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
+     * Création de la route vers la page d'administration des formations
      * @Route("/admin", name="admin.formations")
      * @return Response
      */
@@ -64,6 +65,7 @@ class AdminFormationsController extends AbstractController {
     }
     
     /**
+     * Suppression d'une formation
      * @Route("/admin/suppr/{id}", name="admin.formation.suppr")
      * @param Formation $formation
      * @return Response
@@ -73,6 +75,7 @@ class AdminFormationsController extends AbstractController {
         return  $this -> redirectToRoute('admin.formations');
     }
     /**
+     * Edition d'une formation
      * @Route("/admin/edit/{id}", name="admin.formation.edit")
      * @param Formation $formation
      * @param Request $request
@@ -91,6 +94,7 @@ class AdminFormationsController extends AbstractController {
         ]);
     }
     /**
+     * Ajout d'une formation
      * @Route("/admin/ajout", name="admin.formation.ajout")
      * @param Request $request
      * @return Response
@@ -109,6 +113,8 @@ class AdminFormationsController extends AbstractController {
         ]);
     }
     /**
+     * Retourne toutes les formations triées sur un champ
+     * Et sur un champ si autre table
      * @Route("/admin/tri/{champ}/{ordre}/{table}", name="admin.formations.sort")
      * @param type $champ
      * @param type $ordre
@@ -128,6 +134,8 @@ class AdminFormationsController extends AbstractController {
         ]);
     }
     /**
+     * Récupère les enregistrements selon le champ et la valeur,
+     * Et si le champ est dans une autre table
      * @Route("/admin/recherche/{champ}/{table}", name="admin.formations.findallcontain")
      * @param type $champ
      * @param Request $request

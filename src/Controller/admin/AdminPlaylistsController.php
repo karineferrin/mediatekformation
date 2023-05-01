@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminPlaylistsController
+ * Gère les routes de la page d'administration des playlists
  *
- * @author karin
+ * @author karinfer
  * 
  */
 class AdminPlaylistsController extends AbstractController {
@@ -36,7 +36,7 @@ class AdminPlaylistsController extends AbstractController {
     private $playlistRepository;
     
     /**
-     * 
+     * Création du constructeur
      * @param FormationRepository $formationRepository
      * @param PlaylistRepository $playlistRepository
      * @param CategorieRepository $categorieRepository
@@ -50,6 +50,7 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
+     * Création de la route vers la page des playlists
      * @Route("/admin/playlists", name="admin.playlists")
      * @return Response
      */
@@ -63,6 +64,7 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
+     * Suppression d'une playlist
      * @Route("/admin/playlist/suppr/{id}", name="admin.playlist.suppr")
      * @param Playlist $playlist
      * @return Response
@@ -72,6 +74,7 @@ class AdminPlaylistsController extends AbstractController {
         return  $this -> redirectToRoute('admin.playlists');
     }
     /**
+     * Edition d'une playlist
      * @Route("/admin/playlist/edit/{id}", name="admin.playlist.edit")
      * @param Request $request
      * @return Response
@@ -89,6 +92,7 @@ class AdminPlaylistsController extends AbstractController {
         ]);
     }
     /**
+     * Ajout d'une playlist
      * @Route("/admin/playlist/ajout", name="admin.playlist.ajout")
      * @param Request $request
      * @return Response
@@ -107,6 +111,8 @@ class AdminPlaylistsController extends AbstractController {
         ]);
     }
     /**
+     * Tri des enregistrements selon le nom des playlists
+     * Ou selon le nombre de formations
      * @Route("/admin/playlists/tri/{champ}/{ordre}", name="admin.playlists.sort")
      * @param type $champ
      * @param type $ordre
@@ -130,13 +136,15 @@ class AdminPlaylistsController extends AbstractController {
     }
     
     /**
+     * Récupère les enregistrements selon $champ $valeur
+     * Et selon le $champ et la $valeur si autre $table
      * @Route("/admin/playlists/recherche/{champ}/{table}", name="admin.playlists.findallcontain")
      * @param type $champ
      * @param Request $request
      * @param type $table
      * @return Response
      */
-    public function findAllContain($champ, Request $request, $table): Response{
+    public function findAllContain($champ, Request $request, $table= ""): Response{
         $valeur = $request->get("recherche");
         if ($table != ""){
             $playlists = $this->playlistRepository->findByContainValueTable($champ,$valeur,$table);

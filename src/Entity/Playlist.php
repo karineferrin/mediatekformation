@@ -5,10 +5,11 @@ namespace App\Entity;
 use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
+ * identité: Playlist
  * @ORM\Entity(repositoryClass=PlaylistRepository::class)
  */
 class Playlist
@@ -22,7 +23,6 @@ class Playlist
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Assert\NotBlank
      */
     private $name;
 
@@ -98,6 +98,7 @@ class Playlist
         return $this;
     }
     /**
+     * Obtient les catégories des formations
      * @return Collection<int, string>
     */
     public function getCategoriesPlaylist() : Collection

@@ -1,0 +1,32 @@
+{{ form_start(formplaylist) }}
+        <div class="row">
+            <div class="col">
+                
+                {{ form_row(formplaylist.name) }}
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col">
+            {{ form_row(formplaylist.description) }}
+            </div>
+        </div>
+    
+       
+        <div class="row">
+            <div class="col">
+                <a href="{{ path('admin.playlists.showone', {id:'playlist.id'}) }}" class="disabled link-secondary text-decoration-none"></a>
+                    {% if playlistformations is defined and playlistformations %}
+                     {% for formation in playlistformations %}          
+                
+                    <div class="row mt-1">
+                        <div class="col d-flex align-items-center">
+                            {{ form_row(formplaylist.formations) }}
+                        </div>
+                    </div>
+                    
+                     {% endfor %}    
+                    {% endif %}
+            </div>
+        </div>
+    {{ form_end(formplaylist) }}

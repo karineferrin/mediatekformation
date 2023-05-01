@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Identité: Formation
  * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
 class Formation
@@ -28,14 +29,13 @@ class Formation
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Assert\NotBlank
+     * @Assert\LessThanOrEqual("now")
      */
     
     private $publishedAt;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Assert\NotBlank
      */
     
     private $title;
@@ -47,13 +47,11 @@ class Formation
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
-     * @Assert\NotBlank
      */
     private $videoId;
 
     /**
      * @ORM\ManyToOne(targetEntity=Playlist::class, inversedBy="formations")
-     * @Assert\NotBlank
      */
     private $playlist;
 
@@ -172,16 +170,6 @@ class Formation
 
         return $this;
     }
-     public function getUpdatedAt(): ? \DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(? \DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
+  
     
 }

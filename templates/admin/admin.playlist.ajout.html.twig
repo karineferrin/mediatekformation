@@ -2,24 +2,6 @@
 
 {% block body %}
     <h2>Nouvelle playlist :</h2>
-    {{ form_start(formplaylist) }}
-        <div class="row">
-            <div class="col">
-                
-                {{ form_row(formplaylist.name) }}
-            </div>
-           
-        </div>
-        <div class="row">
-            <div class="col">
-            {{ form_row(formplaylist.description) }}
-            </div>
-        </div>
+    {{ include ('_admin.playlist.form.html.twig') }}
     
-         <div class="row">
-            <div class="col">
-            {{ form_row(formplaylist.formations, { 'attr': {'class': 'hidden'} }) }}
-            </div>
-        </div> 
-    {{ form_end(formplaylist) }}
 {% endblock %}
