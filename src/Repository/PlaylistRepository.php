@@ -55,6 +55,7 @@ class PlaylistRepository extends ServiceEntityRepository
     public function findAllOrderByName($ordre): array{
         return $this->createQueryBuilder('p')
                     ->leftjoin(PFORMATIONS, 'f')
+                    ->leftjoin('f.categories','c')
                     ->groupBy('p.id')
                     ->orderBy('p.name', $ordre)
                     ->getQuery()
@@ -76,9 +77,9 @@ class PlaylistRepository extends ServiceEntityRepository
 
     /**
      * Tous les enregistrements si la valeur est vide
+     * ou enregistrement dont un champ contient une valeur.
      * @param type $champ
      * @param type $valeur
-     * @param type $table si $champ dans une autre table
      * @return Playlist[]
      */
     public function findByContainValue($champ, $valeur): array{
@@ -101,7 +102,7 @@ class PlaylistRepository extends ServiceEntityRepository
      * Et "table" en paramètre
      * @param type $champ
      * @param type $valeur
-     * @param type $table si $champ dans une autre table
+     * @param type $table 
      * @return Playlist[]
      */    
     public function findByContainValueTable($champ, $valeur, $table): array{

@@ -75,7 +75,6 @@ class CategorieRepository extends ServiceEntityRepository
      * Retourne toutes les catégories triées sur un champ
      * @param type $champ
      * @param type $ordre
-     * @param type $table
      * @return Categorie[]
      */
     public function findAllOrderBy($champ, $ordre): array{

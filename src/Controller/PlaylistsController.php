@@ -42,15 +42,15 @@ class PlaylistsController extends AbstractController {
      * Création du constructeur
      * @param PlaylistRepository $playlistRepository
      * @param CategorieRepository $categorieRepository
-     * @param FormationRepository $formationRespository
+     * @param FormationRepository $formationRepository
      */
     
     function __construct(PlaylistRepository $playlistRepository, 
             CategorieRepository $categorieRepository,
-            FormationRepository $formationRespository) {
+            FormationRepository $formationRepository) {
         $this->playlistRepository = $playlistRepository;
         $this->categorieRepository = $categorieRepository;
-        $this->formationRepository = $formationRespository;
+        $this->formationRepository = $formationRepository;
     }
     
     /**
@@ -100,7 +100,7 @@ class PlaylistsController extends AbstractController {
      * @param type $table
      * @return Response
      */
-    public function findAllContain($champ, Request $request, $table): Response{
+    public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
         if ($table != ""){
             $playlists = $this->playlistRepository->findByContainValueTable($champ,$valeur,$table);
