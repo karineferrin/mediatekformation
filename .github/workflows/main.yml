@@ -12,6 +12,6 @@ jobs:
      uses: SamKirkland/FTP-Deploy-Action@4.3.0
      with:
       server: ftp.karine-ferrin.fr
-      server-dir: mediatekformation.karine-ferrin.fr/public/
+      server-dir: htdocs/mediatekformation.karine-ferrin.fr/
       username: karin2081754
       password: ${{ secrets.ftp_password }}
