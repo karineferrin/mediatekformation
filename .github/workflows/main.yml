@@ -2,16 +2,16 @@ on: push
 name: Deploy website on push
 jobs:
  web-deploy:
- name: Deploy
- runs-on: ubuntu-latest
- steps:
- - name: Get latest code
- uses: actions/checkout@v2
- 
- - name: Sync files
- uses: SamKirkland/FTP-Deploy-Action@4.3.0
- with:
- server: ftp.karine-ferrin.fr
- server-dir: mediatekformation.karine-ferrin.fr/public/
- username: karin2081754
- password: ${{ secrets.ftp_password }}
+  name: Deploy
+  runs-on: ubuntu-latest
+  steps:
+   - name: Get latest code
+     uses: actions/checkout@v2
+   
+   - name: Sync files
+     uses: SamKirkland/FTP-Deploy-Action@4.3.0
+     with:
+      server: ftp.karine-ferrin.fr
+      server-dir: mediatekformation.karine-ferrin.fr/public/
+      username: karin2081754
+      password: ${{ secrets.ftp_password }}
